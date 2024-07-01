@@ -5,11 +5,11 @@ import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../Constants/urls.dart';
-import '../Model/Patient_Model.dart';
+import '../Model/Branch_Model.dart';
 
-class PatientService {
-  Future<List<Patient>> getPatient() async {
-    List<Patient> data = [];
+class BranchListServices {
+  Future<List<Branch>> getBranch() async {
+    List<Branch> data = [];
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final token = prefs.getString("logintoken");
     Map<String, String> headers = {
@@ -20,7 +20,7 @@ class PatientService {
     }
     try {
       var response = await Dio().get(
-        "${AppUrl.baseUrl}PatientList",
+        "${AppUrl.baseUrl}BranchList",
         options: Options(
           headers: headers,
         ),
@@ -29,10 +29,10 @@ class PatientService {
         print(response);
       }
       var json = response.data;
-      response.data['patient']
-          .map((e) => data.add(Patient.fromJson(e)))
-          .toList();
-      // data = List<PatientModel>.from(json.map((x) => PatientModel.fromJson(x)));
+      // response.data['branches']
+      //     .map((e) => data.add(Branch.fromJson(e)))
+      //     .toList();
+      data = List<Branch>.from(json["branches"].map((x) => Branch.fromJson(x)));
       print(json);
     } catch (e, stackTrace) {
       log(e.toString());

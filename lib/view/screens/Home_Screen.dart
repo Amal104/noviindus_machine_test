@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:get/route_manager.dart';
 import 'package:noviindus_machine_test/Constants/Size.dart';
 import 'package:noviindus_machine_test/Provider/Patient_Provider.dart';
+import 'package:noviindus_machine_test/view/screens/Register_Screen.dart';
 import 'package:provider/provider.dart';
 
 import '../../Utils/AppColor.dart';
@@ -135,7 +137,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 SizedBox(
                                   width: width(context) * 0.08,
                                 ),
-                                Icon(Icons.arrow_drop_down_outlined),
+                                const Icon(Icons.arrow_drop_down_outlined),
                               ],
                             ),
                           ),
@@ -154,40 +156,108 @@ class _HomeScreenState extends State<HomeScreen> {
 
                   Expanded(
                     // height: height(context) * 0.4,
-                    child: ListView.builder(
-                      itemCount: provider.patient?.length,
-                      shrinkWrap: true,
-                      itemBuilder: (context, index) {
-                        return Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 10.0),
-                          child: provider.isLoading
-                              ? const Center(
-                                  child: Text("NoData"),
-                                )
-                              : Container(
+                    child: provider.isLoading == true
+                        ? const Center(
+                            child: CircularProgressIndicator(),
+                          )
+                        : ListView.builder(
+                            itemCount: provider.patient.length,
+                            shrinkWrap: true,
+                            itemBuilder: (context, index) {
+                              var patient = provider.patient[index];
+                              return Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 10.0),
+                                child: Container(
                                   width: width(context),
-                                  height: 50,
-                                  padding: const EdgeInsets.all(15),
                                   decoration: BoxDecoration(
                                     color: AppColor.lightGrey,
                                     borderRadius: BorderRadius.circular(5),
                                   ),
                                   child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
-                                      Column(
-                                        children: [
-                                          Text(
-                                            provider.patient?[index]
-                                                    .patient[index].name ??
-                                                "name",
-                                          )
-                                        ],
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                            top: 15, left: 15, right: 15),
+                                        child: Row(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              "${index + 1}.",
+                                              style: const TextStyle(
+                                                fontSize: 18,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                            const SizedBox(
+                                              width: 10,
+                                            ),
+                                            Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text(
+                                                      patient.name,
+                                                      style: const TextStyle(
+                                                        fontSize: 18,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                      ),
+                                                    ),
+                                                    Text(
+                                                      patient.address,
+                                                      style: TextStyle(
+                                                        fontSize: 15,
+                                                        color: AppColor.green,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                )
+                                              ],
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      const Divider(
+                                        color: Color(0x5C9E9E9E),
+                                      ),
+                                      const Padding(
+                                        padding: EdgeInsets.only(
+                                          left: 15,
+                                          right: 15,
+                                          bottom: 15,
+                                        ),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text(
+                                              "view Booking details",
+                                              style: TextStyle(
+                                                fontSize: 13,
+                                                color: Color(0x83000000),
+                                              ),
+                                            ),
+                                            Icon(
+                                              Icons.arrow_forward_ios,
+                                              size: 15,
+                                            )
+                                          ],
+                                        ),
                                       )
                                     ],
-                                  )),
-                        );
-                      },
-                    ),
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
                   ),
 
                   const SizedBox(
@@ -197,7 +267,12 @@ class _HomeScreenState extends State<HomeScreen> {
                   // Register Now Tab
 
                   GestureDetector(
-                    onTap: () {},
+                    onTap: () {
+                      Get.to(
+                        () => const RegisterScreen(),
+                        transition: Transition.cupertino,
+                      );
+                    },
                     child: Container(
                       decoration: BoxDecoration(
                           color: AppColor.green,

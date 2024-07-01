@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:noviindus_machine_test/Provider/Login_Provider.dart';
 import 'package:noviindus_machine_test/Provider/Patient_Provider.dart';
+import 'package:noviindus_machine_test/Provider/Register_Provider.dart';
 import 'package:noviindus_machine_test/view/screens/Login_Screen.dart';
 import 'package:noviindus_machine_test/view/screens/Splash_Screen.dart';
 import 'package:provider/provider.dart';
@@ -25,6 +26,9 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (context) => PatientProvider(),
         ),
+        ChangeNotifierProvider(
+          create: (context) => RegisterProvider(),
+        ),
       ],
       child: GetMaterialApp(
         title: 'Flutter Demo',
@@ -33,7 +37,7 @@ class MyApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.green.shade900),
           useMaterial3: true,
         ),
-        home: const HomeScreen(),
+        home: const SplashScreen(),
       ),
     );
   }

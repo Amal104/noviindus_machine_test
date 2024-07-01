@@ -4,23 +4,20 @@ import '../Model/Patient_Model.dart';
 import '../Services/Patient_List_Serrvices.dart';
 
 class PatientProvider extends ChangeNotifier {
-
-  List<PatientModel>? patient = [];
+  List<Patient> patient = [];
   var isLoading = false;
 
   getPatientData() async {
     isLoading = true;
+    notifyListeners();
 
-     patient = (await PatientService().getPatient());
+    patient = (await PatientService().getPatient());
 
-     isLoading = false;
-     notifyListeners();
+    isLoading = false;
+    notifyListeners();
   }
 
   Future<void> refresh() async {
-    
     await getPatientData();
-    
   }
-
 }
