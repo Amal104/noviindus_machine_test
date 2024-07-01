@@ -9,31 +9,29 @@ import '../Model/Patient_Model.dart';
 
 class PatientService {
   Future<List<PatientModel>?> getPatient() async {
+    Dio _dio = Dio();
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final token = prefs.getString("logintoken");
-    Map<String, String> headers = {
-      'Authorization': 'Bearer $token',
-    };
     if (kDebugMode) {
       print(token);
     }
     try {
-      var response = await Dio().get(
-        "${AppUrl.baseUrl}PatientModel",
-        options: Options(
-          headers: headers,
-        ),
-      );
+      _dio.options.headers["Authorization"] = "Bearer $token";
+      var response = await _dio.get("${AppUrl.baseUrl}PatientList");
       if (kDebugMode) {
         print(response);
       }
       var json = response.data;
       List<PatientModel>? data =
           List<PatientModel>.from(json.map((x) => PatientModel.fromJson(x)));
-      print(json);
+      if (kDebugMode) {
+        print(json);
+      }
       return data;
     } catch (e) {
-      log(e.toString());
+      if (e is DioException) {
+        e.response?.data;
+      }
     }
   }
 }

@@ -155,20 +155,36 @@ class _HomeScreenState extends State<HomeScreen> {
                   Expanded(
                     // height: height(context) * 0.4,
                     child: ListView.builder(
-                      itemCount: 15,
+                      itemCount: provider.patient?.length,
                       shrinkWrap: true,
                       itemBuilder: (context, index) {
                         return Padding(
                           padding: const EdgeInsets.symmetric(vertical: 10.0),
-                          child: Container(
-                            width: width(context),
-                            height: 50,
-                            padding: EdgeInsets.all(15),
-                            decoration: BoxDecoration(
-                              color: AppColor.lightGrey,
-                              borderRadius: BorderRadius.circular(5),
-                            ),
-                          ),
+                          child: provider.isLoading
+                              ? const Center(
+                                  child: Text("NoData"),
+                                )
+                              : Container(
+                                  width: width(context),
+                                  height: 50,
+                                  padding: const EdgeInsets.all(15),
+                                  decoration: BoxDecoration(
+                                    color: AppColor.lightGrey,
+                                    borderRadius: BorderRadius.circular(5),
+                                  ),
+                                  child: Column(
+                                    children: [
+                                      Column(
+                                        children: [
+                                          Text(
+                                            provider.patient?[index]
+                                                    .patient[index].name ??
+                                                "name",
+                                          )
+                                        ],
+                                      )
+                                    ],
+                                  )),
                         );
                       },
                     ),
