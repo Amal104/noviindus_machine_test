@@ -120,6 +120,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   // Branch
 
                   const Text("Branch"),
+                  const SizedBox(
+                    height: 10,
+                  ),
                   Container(
                     width: width(context),
                     padding: const EdgeInsets.symmetric(
@@ -158,6 +161,154 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ),
 
                   //Treatments
+
+                  ListView.builder(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount: provider.treatmetntsList.length,
+                    itemBuilder: (context, index) {
+                      return Container(
+                        margin: const EdgeInsets.only(bottom: 10),
+                        padding: const EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                          color: AppColor.lightGrey,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "${index + 1}.",
+                              style: const TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  mainAxisSize: MainAxisSize.max,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      provider.limitWords(
+                                          provider.treatmetntsList[index]
+                                              .treatmentName
+                                              .toString(),
+                                          2),
+                                      style: const TextStyle(
+                                        fontSize: 16.5,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      width: 150,
+                                    ),
+                                    Icon(
+                                      Icons.cancel_rounded,
+                                      color: Colors.red.shade300,
+                                    )
+                                  ],
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceAround,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Text(
+                                          "Male",
+                                          style: TextStyle(
+                                            fontSize: 15,
+                                            color: AppColor.green,
+                                          ),
+                                        ),
+                                        const SizedBox(
+                                          width: 15,
+                                        ),
+                                        Container(
+                                          padding: const EdgeInsets.symmetric(
+                                            horizontal: 20,
+                                            vertical: 10,
+                                          ),
+                                          decoration: BoxDecoration(
+                                            color: AppColor.lightGrey,
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                          ),
+                                          child: Text(
+                                            provider.treatmetntsList[index]
+                                                .maleCount
+                                                .toString(),
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 15,
+                                              color: AppColor.green,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(
+                                      width: 30,
+                                    ),
+                                    Row(
+                                      children: [
+                                        Text(
+                                          "Female",
+                                          style: TextStyle(
+                                            fontSize: 15,
+                                            color: AppColor.green,
+                                          ),
+                                        ),
+                                        const SizedBox(
+                                          width: 15,
+                                        ),
+                                        Container(
+                                          padding: const EdgeInsets.symmetric(
+                                            horizontal: 20,
+                                            vertical: 10,
+                                          ),
+                                          decoration: BoxDecoration(
+                                            color: AppColor.lightGrey,
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                          ),
+                                          child: Text(
+                                            provider.treatmetntsList[index]
+                                                .femaleCount
+                                                .toString(),
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 15,
+                                              color: AppColor.green,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(
+                                      width: 35,
+                                    ),
+                                    Icon(
+                                      Icons.edit,
+                                      size: 16,
+                                      color: AppColor.green,
+                                    )
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                  ),
 
                   GestureDetector(
                     onTap: () {
@@ -206,7 +357,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                               color: Colors.grey[400],
                                             ),
                                           ),
-                                          icon: SizedBox(),
+                                          icon: const SizedBox(),
                                           underline: const SizedBox(),
                                           items: provider.treatment.map((e) {
                                             return DropdownMenuItem(
@@ -434,6 +585,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                     LongButton(
                                       title: "Save",
                                       function: () {
+                                        provider.addTreatmentListData();
                                         Get.back();
                                       },
                                     ),
@@ -464,6 +616,74 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     controller: provider.totalamtConroller,
                     type: TextInputType.number,
                     hint: "",
+                  ),
+                  const Text("Discount Amount"),
+                  RegsterDataTab(
+                    controller: provider.blncamtConroller,
+                    type: TextInputType.streetAddress,
+                    hint: "",
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Row(
+                        children: [
+                          Radio<String>(
+                            value: 'Cash',
+                            groupValue: provider.selectedPaymentMethod,
+                            onChanged: (String? value) {
+                              provider.onPaymentChanged(value);
+                            },
+                          ),
+                          const Text(
+                            'Cash',
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.w500,
+                              fontSize: 15,
+                            ),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Radio<String>(
+                            value: 'Card',
+                            groupValue: provider.selectedPaymentMethod,
+                            onChanged: (String? value) {
+                              provider.onPaymentChanged(value);
+                            },
+                          ),
+                          const Text(
+                            'Card',
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.w500,
+                              fontSize: 15,
+                            ),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Radio<String>(
+                            value: 'UPI',
+                            groupValue: provider.selectedPaymentMethod,
+                            onChanged: (String? value) {
+                              provider.onPaymentChanged(value);
+                            },
+                          ),
+                          const Text(
+                            'UPI',
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.w500,
+                              fontSize: 15,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
                   const Text("Balance Amount"),
                   RegsterDataTab(

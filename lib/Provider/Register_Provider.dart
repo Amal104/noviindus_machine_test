@@ -6,6 +6,8 @@ import 'package:noviindus_machine_test/Model/Treatment_Model.dart';
 import 'package:noviindus_machine_test/Services/Branch_List_Services.dart';
 import 'package:noviindus_machine_test/Services/Treatment_List_Services.dart';
 
+import '../Model/TreatmentList_Model.dart';
+
 class RegisterProvider extends ChangeNotifier {
   final nameConroller = TextEditingController();
   final whatsappConroller = TextEditingController();
@@ -27,14 +29,26 @@ class RegisterProvider extends ChangeNotifier {
 
   String? selectedDate;
 
+  String? selectedPaymentMethod;
+
   int? selectedHour;
   int? selectedMinutes;
 
   int maleCount = 0;
   int femaleCount = 0;
 
+  List<TreatmentList> treatmetntsList = [];
+
   onLocationChanged(String? value) {
     selectedLocation = value;
+    notifyListeners();
+  }
+
+  onPaymentChanged(String? value) {
+    if (kDebugMode) {
+      print(value);
+    }
+    selectedPaymentMethod = value;
     notifyListeners();
   }
 
@@ -78,6 +92,43 @@ class RegisterProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  addTreatmentListData() {
+    treatmetntsList.add(TreatmentList(
+        treatmentName: selectedTreatment!,
+        maleCount: maleCount,
+        femaleCount: femaleCount));
+    notifyListeners();
+
+    maleCount = 0;
+    femaleCount = 0;
+    notifyListeners();
+
+    if (kDebugMode) {
+      print(treatmetntsList);
+    }
+  }
+
+  removeTreatmentListData() {
+    treatmetntsList.remove(TreatmentList(
+        treatmentName: selectedTreatment!,
+        maleCount: maleCount,
+        femaleCount: femaleCount));
+    notifyListeners();
+
+    if (kDebugMode) {
+      print(treatmetntsList);
+    }
+  }
+
+  String limitWords(String text, int wordLimit) {
+    List<String> words = text.split(' ');
+    if (words.length <= wordLimit) {
+      return text;
+    } else {
+      return words.sublist(0, wordLimit).join(' ') + '...';
+    }
+  }
+
   Future<void> selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
       context: context,
@@ -98,5 +149,4 @@ class RegisterProvider extends ChangeNotifier {
 
   final List<int> hours = List<int>.generate(12, (index) => index + 1);
   final List<int> minutes = List<int>.generate(60, (index) => index + 1);
-
 }

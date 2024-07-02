@@ -145,11 +145,11 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ],
                   ),
-                  const Padding(
-                    padding: EdgeInsets.symmetric(vertical: 8.0),
-                    child: Divider(
-                      thickness: 2,
-                    ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  const Divider(
+                    thickness: 2,
                   ),
 
                   // Patient List
@@ -218,6 +218,48 @@ class _HomeScreenState extends State<HomeScreen> {
                                                         color: AppColor.green,
                                                       ),
                                                     ),
+                                                    const SizedBox(
+                                                      height: 5,
+                                                    ),
+                                                    Row(
+                                                      children: [
+                                                        Row(
+                                                          children: [
+                                                            const Icon(
+                                                              Icons
+                                                                  .calendar_month_outlined,
+                                                              size: 15,
+                                                              color: Colors.red,
+                                                            ),
+                                                            Text(
+                                                              "${patient.dateNdTime!.day.toString()}/${patient.dateNdTime!.month.toString().padLeft(2, '0')}/${patient.dateNdTime!.year.toString().padLeft(2, '0')}",
+                                                              style:
+                                                                  const TextStyle(
+                                                                fontSize: 12,
+                                                                color:
+                                                                    Colors.grey,
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                        const SizedBox(
+                                                          width: 30,
+                                                        ),
+                                                        const Icon(
+                                                          Icons.person_2,
+                                                          size: 15,
+                                                          color: Colors.red,
+                                                        ),
+                                                        Text(
+                                                          patient.user,
+                                                          style:
+                                                              const TextStyle(
+                                                            fontSize: 15,
+                                                            color: Colors.grey,
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
                                                   ],
                                                 )
                                               ],
@@ -228,9 +270,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                       const Divider(
                                         color: Color(0x5C9E9E9E),
                                       ),
-                                      const Padding(
-                                        padding: EdgeInsets.only(
-                                          left: 15,
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                          left: 40,
                                           right: 15,
                                           bottom: 15,
                                         ),
@@ -238,7 +280,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
                                           children: [
-                                            Text(
+                                            const Text(
                                               "view Booking details",
                                               style: TextStyle(
                                                 fontSize: 13,
@@ -248,6 +290,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                             Icon(
                                               Icons.arrow_forward_ios,
                                               size: 15,
+                                              color: AppColor.green,
                                             )
                                           ],
                                         ),

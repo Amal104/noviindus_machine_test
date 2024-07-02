@@ -43,7 +43,7 @@ class Patient {
   String name;
   String phone;
   String address;
-  // DateTime? dateNdTime;
+  DateTime? dateNdTime;
 
   Patient({
     required this.id,
@@ -53,7 +53,7 @@ class Patient {
     required this.name,
     required this.phone,
     required this.address,
-    // this.dateNdTime,
+    this.dateNdTime,
   });
 
   factory Patient.fromJson(Map<String, dynamic> json) => Patient(
@@ -67,9 +67,9 @@ class Patient {
         name: json["name"] ?? "Not found",
         phone: json["phone"] ?? "Not found",
         address: json["address"] ?? "Not found",
-        // dateNdTime: json["date_nd_time"] != null
-        //     ? DateTime.parse(json["date_nd_time"])
-        //     : null,
+        dateNdTime: json["date_nd_time"] != null
+            ? DateTime.parse(json["date_nd_time"])
+            : DateTime.now(),
       );
 
   Map<String, dynamic> toJson() => {
@@ -81,6 +81,6 @@ class Patient {
         "name": name,
         "phone": phone,
         "address": address,
-        // "date_nd_time": dateNdTime?.toIso8601String(),
+        "date_nd_time": dateNdTime?.toIso8601String(),
       };
 }
