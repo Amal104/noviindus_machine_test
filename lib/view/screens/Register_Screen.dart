@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import 'package:noviindus_machine_test/Constants/Size.dart';
 import 'package:noviindus_machine_test/Provider/Register_Provider.dart';
 import 'package:provider/provider.dart';
-
 import '../../Utils/AppColor.dart';
 import '../../Utils/LongButton.dart';
 import '../widgets/RegisterDataTab.dart';
@@ -619,7 +618,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ),
                   const Text("Discount Amount"),
                   RegsterDataTab(
-                    controller: provider.blncamtConroller,
+                    controller: provider.discountamtConroller,
                     type: TextInputType.streetAddress,
                     hint: "",
                   ),
@@ -685,10 +684,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       ),
                     ],
                   ),
+                  const Text("Advance Amount"),
+                  RegsterDataTab(
+                    controller: provider.advcamtConroller,
+                    type: TextInputType.number,
+                    hint: "",
+                  ),
                   const Text("Balance Amount"),
                   RegsterDataTab(
                     controller: provider.blncamtConroller,
-                    type: TextInputType.streetAddress,
+                    type: TextInputType.number,
                     hint: "",
                   ),
                   const Text("Treatment Date"),
@@ -790,6 +795,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     title: "Save",
                     function: () {
                       HapticFeedback.lightImpact();
+                      provider.sendPatientData(context);
+                      provider.pdf(context);
                     },
                   )
                 ],
